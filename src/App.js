@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import TodoList from './TodoList';
 import './App.css';
 
 class App extends Component {
@@ -7,10 +8,13 @@ class App extends Component {
     super(props, context);
 
     this.state = {
-      items: []
+      items: [],
+      currentDate: {date: new Date()}
     };
  
     this.addItem = this.addItem.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.toggleDone = this.toggleDone.bind(this);
   }
 
   addItem = (e) => {
@@ -22,6 +26,7 @@ class App extends Component {
           text: this._inputTaskElement.value,
           expDate: this._inputExpDateElement.value,
           importance: this._inputImportanceElement.value,
+          isDone: false,
           key: Date.now()
         }
       )
@@ -31,9 +36,35 @@ class App extends Component {
       });
 
       this._inputTaskElement.value = "";
+      this._inputExpDateElement.value = "";
     };
   console.log(itemArray); 
   e.preventDefault();
+  }
+
+  deleteItem(key){
+    var filtiredItems = this.state.items.filter(
+      (item) => (item.key !== key)
+    );
+
+    this.setState({
+      items:filtiredItems
+    });
+  }
+
+  toggleDone(key){
+    var itemArray = this.state.items;
+    var itemIndex = itemArray.findIndex(
+      (item) => (item.key === key));
+
+    if (itemIndex !== -1) {
+      itemArray[itemIndex].isDone = !itemArray[itemIndex].isDone;
+    }
+
+    this.setState({
+      items:itemArray
+    });
+    console.log(this.state.items);
   }
 
   render() {
@@ -45,8 +76,8 @@ class App extends Component {
                onChange={this.onChange} placeholder="enter task">
             </input>
             <input type="datetime-local"
-               ref={(a) => this._inputExpDateElement = a}
-               onChange={this.onChange} placeholder="enter exp date">
+              ref={(a) => this._inputExpDateElement = a}
+              onChange={this.onChange} placeholder="enter exp date">
             </input>
             <select ref={(a) => this._inputImportanceElement = a}>
               <option>Обычная</option>
@@ -56,6 +87,9 @@ class App extends Component {
             <button type="submit">add</button>
           </form>
         </div>
+        <TodoList entries={this.state.items} 
+          delete={this.deleteItem}
+          toggleDone={this.toggleDone}/>
       </div>
     );
   }
