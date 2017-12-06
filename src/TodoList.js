@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './App.css';
 
 class TodoItems extends React.Component {
  constructor(props, context) {
@@ -21,10 +22,10 @@ class TodoItems extends React.Component {
   let decoration=(item.isDone)?"line-through":"none";
 
    return <li key={item.key}>
-     <span style = {{textDecoration : decoration}} onClick={(e) => this.toggleDone(item.key, e)}>
-      {item.importance} {item.text} {item.expDate.split("T")[0]} {item.expDate.split("T")[1]}
-     </span>
-    <button onClick={(e) => this.delete(item.key, e)}>X</button></li>
+    <span className = {"importance"}>{item.importance} </span>
+      <span style = {{textDecoration : decoration}} className = {"name"} onClick={(e) => this.toggleDone(item.key, e)}> {item.text} {item.expDate.split("T")[0]} {item.expDate.split("T")[1]}
+    </span>
+    <span className = "deleteBtn" onClick={(e) => this.delete(item.key, e)}>X</span></li>
  }
 
  render() {

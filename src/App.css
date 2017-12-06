@@ -1,28 +1,64 @@
-.App {
-  text-align: center;
+.appMain .header input {
+  padding: 10px;
+  margin: 10px;
+  margin-left: 0px;
+  font-size: 16px;
+  border: 2px solid #FFF;
+  width: 165px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.appMain .header select{
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #FFF;
+  width: 165px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+.name{
+  cursor: pointer;
+}
+
+.importance{
+  border-radius: 5px;
+  background-color: rgb(119, 11, 161);
+  margin-right: 4px;
+  align-self: right;
   color: white;
+  border: none;
+  padding: 4px 4px 4px 4px;
+  text-decoration: none;
 }
 
-.App-title {
-  font-size: 1.5em;
+.deleteBtn{
+  border-radius: 5px;
+  background-color: #0066FF;
+  color: white;
+  border: none;
+  padding: 4px 10px 4px 10px;
+  text-decoration: none;
+  cursor : pointer;
+  vertical-align: middle;
 }
 
-.App-intro {
-  font-size: large;
+.appMain button {
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px;
+  margin-right: 0px;
+  background-color: #0066FF;
+  color: #FFF;
+  border: 2px solid #0066FF;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.appMain .theList {
+  list-style: none;
+  padding-left: 0;
+  width: 625px;
+} 
+.appMain .theList li {
+  color: #333;
+  background-color: rgba(255,255,255,.5);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
 }

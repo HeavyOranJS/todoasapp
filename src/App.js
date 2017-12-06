@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import TodoList from './TodoList';
+import './index.css';
 import './App.css';
 
 class App extends Component {
@@ -17,8 +18,45 @@ class App extends Component {
     this.toggleDone = this.toggleDone.bind(this);
   }
 
+  componentDidMount(){
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnMount(){
+    clearInterval(this.timerID);
+  }
+
+  deadline(deadline){
+    var filtiredItems = this.state.items.filter(
+      (item) => (item.expDate >= deadline)
+    );
+
+    console.log("filtred " + filtiredItems + ", deadline " + deadline );
+    // this.setState({
+    //   items:filtiredItems
+    // });
+  }
+
+  tick(){
+    this.setState({
+      currentDate: new Date()
+    });
+    //this.deadline(this.setState.currentDate);
+    console.log("tick");
+  }
+
+  parseYMDHM(s) {
+    let b = s.toString().split(/\D+/);
+    return new Date(b[0], --b[1], b[2], b[3], b[4], b[5]||0, b[6]||0);
+  }
+
   addItem = (e) => {
-    var itemArray = this.state.items;
+    let itemArray = this.state.items;
+    let expDate = this.parseYMDHM(this._inputExpDateElement.value);
+    let isLateYet = (expDate>this.state.currentDate.date)?false:true;
 
     if(this._inputTaskElement.value !== ""){
       itemArray.unshift(
@@ -27,6 +65,7 @@ class App extends Component {
           expDate: this._inputExpDateElement.value,
           importance: this._inputImportanceElement.value,
           isDone: false,
+          isLate: isLateYet,
           key: Date.now()
         }
       )
@@ -67,9 +106,19 @@ class App extends Component {
     console.log(this.state.items);
   }
 
+  deleteFinished(){
+    var filtiredItems = this.state.items.filter(
+      (item) => (!item.isDone)
+    );
+
+    this.setState({
+      items:filtiredItems
+    });
+  }
+
   render() {
     return (
-      <div className="todoListMain">
+      <div className="appMain">
         <div className="header">
           <form onSubmit={this.addItem}>
             <input ref={(a) => this._inputTaskElement = a}
@@ -80,9 +129,9 @@ class App extends Component {
               onChange={this.onChange} placeholder="enter exp date">
             </input>
             <select ref={(a) => this._inputImportanceElement = a}>
-              <option>Обычная</option>
-              <option>Важная</option>
-              <option>Очень важная</option>
+              <option>Usual</option>
+              <option>Serious</option>
+              <option>Extra</option>
             </select>
             <button type="submit">add</button>
           </form>
@@ -90,6 +139,7 @@ class App extends Component {
         <TodoList entries={this.state.items} 
           delete={this.deleteItem}
           toggleDone={this.toggleDone}/>
+          <button onClick={(e) => this.deleteFinished(e)}>clear finished</button>
       </div>
     );
   }
