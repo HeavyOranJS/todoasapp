@@ -21,7 +21,7 @@ class TodoItems extends React.Component {
  createTasks(item) {
    return <li key={item.key}>
     <span className = {"status"}>{item.importance} </span>
-    {item.isLate?<span className = {"status"}>Late!</span>:""}
+    {item.isLate?<span className = {"status"} >Late!</span>:""}
       <span style = {
           {textDecoration : (item.isDone)?"line-through":"none"}
         }
