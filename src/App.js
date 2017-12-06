@@ -30,33 +30,45 @@ class App extends Component {
   }
 
   deadline(deadline){
-    var filtiredItems = this.state.items.filter(
-      (item) => (item.expDate >= deadline)
-    );
-
-    console.log("filtred " + filtiredItems + ", deadline " + deadline );
-    // this.setState({
-    //   items:filtiredItems
-    // });
+    let isLateYetArray = this.state;
+    let sadFlag = false;
+    isLateYetArray.items.forEach(function(item){
+        if(item.expDate >= deadline){ 
+          sadFlag = true;
+          item.isLate = true;
+          console.log("shiet");
+        }
+      }
+     )
+    console.log("isLateYetArray " + isLateYetArray + ", deadline " + deadline );
+    if(sadFlag)
+    {
+        this.setState({
+        items:isLateYetArray
+      });
+    }
   }
 
   tick(){
     this.setState({
       currentDate: new Date()
     });
-    //this.deadline(this.setState.currentDate);
-    console.log("tick");
+    this.deadline(this.setState.currentDate);
   }
 
   parseYMDHM(s) {
-    let b = s.toString().split(/\D+/);
-    return new Date(b[0], --b[1], b[2], b[3], b[4], b[5]||0, b[6]||0);
+    if(s!==""){
+      let b = s.toString().split(/\D+/);
+      return new Date(b[0], --b[1], b[2], b[3], b[4], b[5]||0, b[6]||0);
+    }
+    return "";
   }
 
   addItem = (e) => {
     let itemArray = this.state.items;
     let expDate = this.parseYMDHM(this._inputExpDateElement.value);
-    let isLateYet = (expDate>this.state.currentDate.date)?false:true;
+    console.log("expDate = " + expDate);
+    let isLateYet = (expDate>this.state.currentDate)||(expDate==="")?false:true;
 
     if(this._inputTaskElement.value !== ""){
       itemArray.unshift(

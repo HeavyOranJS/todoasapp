@@ -19,12 +19,17 @@ class TodoItems extends React.Component {
  }
 
  createTasks(item) {
-  let decoration=(item.isDone)?"line-through":"none";
-
    return <li key={item.key}>
-    <span className = {"importance"}>{item.importance} </span>
-      <span style = {{textDecoration : decoration}} className = {"name"} onClick={(e) => this.toggleDone(item.key, e)}> {item.text} {item.expDate.split("T")[0]} {item.expDate.split("T")[1]}
+    <span className = {"status"}>{item.importance} </span>
+    {item.isLate?<span className = {"status"}>Late!</span>:""}
+      <span style = {
+          {textDecoration : (item.isDone)?"line-through":"none"}
+        }
+       className = {"name"} 
+       onClick={(e) => this.toggleDone(item.key, e)}> 
+        {item.text} {item.expDate.split("T")[0]} {item.expDate.split("T")[1]}
     </span>
+    
     <span className = "deleteBtn" onClick={(e) => this.delete(item.key, e)}>X</span></li>
  }
 
